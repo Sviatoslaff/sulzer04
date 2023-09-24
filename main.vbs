@@ -18,7 +18,7 @@ session.findById("wnd[0]").sendVKey 0
 session.findById("wnd[0]/usr/ctxtVBAK-VBELN").text = qtn
 session.findById("wnd[0]").sendVKey 0
 
-tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_ANGEBOT", "GuiTableControl").Id
+tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
 Set grid = session.findById(tblArea)
 
 
@@ -44,7 +44,7 @@ On Error Resume Next
 	' BOM не существует - выполняем заполнение текстом
     If session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell",False) Is Nothing Then
 		session.findById("wnd[1]/usr/btnG_CANCEL").press
-		Call InformUser(sapRow, cBOM, cEmpty, cBoth, "")										'Обработка 
+		Call InformUser(sapRow, cBOM, cEmpty, cBoth, "", ArticlesExcel, intRow, tblArea)		'Обработка 
 		Continue		' Новая итерация Do - Loop
     End If
     
@@ -91,9 +91,9 @@ On Error Resume Next
 	'Анализ - вернулись ли в основное окно?
     If session.findById(tblArea, False) Is Nothing Then		
 		'Не вернулись
-		session.findById("wnd[0]/tbar[1]/btn[5]").press		'На сообщении нажали галку
+		session.findById("wnd[1]/tbar[0]/btn[0]").press		'На сообщении нажали галку
 		pressF3()											'Вернулись в главное окно
-		Call InformUser(sapRow, obj, cEmpty, cBoth, "")
+		Call InformUser(sapRow, obj, cEmpty, cBoth, "", ArticlesExcel, intRow, tblArea)
 	End If
 
 	'Анализ - сколько строк вставилось 
@@ -112,16 +112,18 @@ On Error Resume Next
 	End if	
 
 	If (diff = 1) Then
-		Call InformUser(sapRow, obj, cOne, cExcel, comment)
+		Call InformUser(sapRow, obj, cOne, cExcel, lines, ArticlesExcel, intRow, tblArea)
 	End If 
 	If (diff > 1) Then
-		Call InformUser(sapRow, obj, cMulti, cExcel, comment)
+		Call InformUser(sapRow, obj, cMulti, cExcel, lines, ArticlesExcel, intRow, tblArea)
 	End If 
 
  	intRow = intRow + 1
 
  Loop
 
+objWorkbook.Save
+objWorkbook.Close False
 ArticlesExcel.Quit
 
-MsgBox "Script finished!", vbSystemModal Or vbInformation
+MsgBox "The script finished!", vbSystemModal Or vbInformation

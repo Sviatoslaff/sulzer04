@@ -1,7 +1,7 @@
 ' Places messages to systems 
 ' row - SAP row, obj - BOM, DIN or Article or both processed, res - result of action (empty or one or multiple lines)
 ' sw - software which needs update by info 
-Sub InformUser(row, obj, res, sw, comment)
+Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
     
     Select Case obj
         Case cBOM
@@ -47,7 +47,7 @@ Sub InformUser(row, obj, res, sw, comment)
     
     ' The focus on the SAP inquiry screen
     If res = cEmpty And (res = cSAP Or res = cBoth) Then
-        session.findById(tblArea & "/ctxtRV45A-MABNR[1," & row & "]").text = "M098-900303"            'Should be MISC
+        session.findById(tblArea & "/ctxtRV45A-MABNR[1," & row & "]").text = "MISC"            'Should be MISC
         session.findById(tblArea & "/ctxtRV45A-KWMENG[12" & row & "]").text = ArticlesExcel.Cells(intRow, 8).Value
         btnArea = "wnd[0]/usr/tabsTAXI_TABSTRIP_OVERVIEW/tabpT\02/ssubSUBSCREEN_BODY:SAPMV45A:4411/subSUBSCREEN_TC:SAPMV45A:4912/subSUBSCREEN_BUTTONS:SAPMV45A:4050"
         Set btnItem = session.findById(btnArea & "/btnBT_ITEM")
