@@ -121,10 +121,10 @@ End Function
 
 ' Диалог выбора файла, создание потоков чтения из файла и записи в файл
 Function selectExcel()
-    Dim wShell, oExec, result, excelFile
+    Dim wShell, oExec, result
 
-    Set wShell=CreateObject("WScript.Shell")
-    Set oExec=wShell.Exec("mshta.exe ""about:<input type=file id=FILE accept="".xl*""><script>FILE.click();new ActiveXObject('Scripting.FileSystemObject').GetStandardStream(1).WriteLine(FILE.value);close();resizeTo(0,0);</script>""")
+    Set wShell = CreateObject("WScript.Shell")
+    Set oExec  = wShell.Exec("mshta.exe ""about:<input type=file id=FILE accept="".xl*""><script>FILE.click();new ActiveXObject('Scripting.FileSystemObject').GetStandardStream(1).WriteLine(FILE.value);close();resizeTo(0,0);</script>""")
     result = oExec.StdOut.ReadLine
      
     If (result = "") Then  
@@ -135,10 +135,10 @@ Function selectExcel()
     ' Set objExcel = CreateObject("Excel.Application")
     ' Set objWorkbook = objExcel.Workbooks.Open (excelFile)
     ' Возвращаем нашу книгу
-    Set selectExcel = result ' Полный путь к выбранному файлу
+    selectExcel = result ' Полный путь к выбранному файлу
     Set oExec = Nothing
     Set wShell = Nothing
-    MsgBox(excelFile)
+    'MsgBox(result)
 
 End Function
 
