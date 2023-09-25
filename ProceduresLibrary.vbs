@@ -3,13 +3,13 @@
 ' sw - software which needs update by info 
 Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
     
-    If obj = cBOM     
+    If obj = cBOM Then
         If res = cEmpty Then
             typeText = "Please clarify pump serial number / Existence of BOM on factory"
         End If
     End If
 
-    If obj = cDIN
+    If obj = cDIN Then
         If res = cEmpty Then
             typeText = "There is not DIN number in pump BOM. Please check DIN number"
         ElseIf res = cOne Then
@@ -19,7 +19,7 @@ Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
         End If
     End If
 
-    If obj = cArticle
+    If obj = cArticle Then
         If res = cEmpty Then
             typeText = "There is not Part number / Article nom in pump BOM. Please check Part number / Article nom"
         ElseIf res = cOne Then
@@ -29,7 +29,7 @@ Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
         End If
     End If
 
-    If obj = cDINArt
+    If obj = cDINArt Then
         If res = cEmpty Then
             typeText = "There is not Part number / Article nom in pump BOM. Please check Part number / Article nom"
         ElseIf res = cOne Then
