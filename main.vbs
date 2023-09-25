@@ -89,10 +89,12 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
         
 		'Анализ в окне выбора 
 		Set Parts = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetSelectedNodes
+		If Parts.Count > 0 Then
 		For each part In Parts
 			MsgBox part
-'			nodetxt = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetNodeTextByKey(part)
+			nodetxt = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetNodeTextByKey(part)
 		Next
+		End If
 
         session.findById("wnd[0]/tbar[1]/btn[5]").press        'Нажали Галку в Structure List
         
@@ -111,12 +113,14 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
             newsaprow = grid.currentRow - 1
             diff = newsaprow - saprow
             
+			WScript.Sleep 300
+
             lines = ""
             For i = newsaprow To saprow Step - 1
                 If lines <> "" Then
                     lines = lines & ", "
                 End If
-                lines = lines & session.findById(tblArea & "/txtVBAP-POSNR[0," & i & "]").text
+                lines = lines & session.findById(tblArea & "/txtVBAP-POSNR[0," & i & "]").text	
             Next
             If lines <> "" Then
                 lines = "[" & lines & "]"
