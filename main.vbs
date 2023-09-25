@@ -43,7 +43,7 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
     WScript.Delay 500
     
     If session.findById("wnd[2]/usr/ctxtVBAKKOM-AUART",False) Is Nothing Then
-		' BOM не существует - выполняем заполнение текстом
+        ' BOM не существует - выполняем заполнение текстом
         session.findById("wnd[1]/usr/btnG_CANCEL").press
         Call InformUser(sapRow, cBOM, cEmpty, cBoth, "", ArticlesExcel, intRow, tblArea)        'Обработка 
     Else
@@ -86,6 +86,13 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
         
         session.findById("wnd[1]").sendVKey 0                'Нажали Enter в окне Find
         
+		'Анализ в окне выбора 
+		Set Parts = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetSelectedNodes
+		For each part In Parts
+			MsgBox part
+'			nodetxt = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetNodeTextByKey(part)
+		Next
+
         session.findById("wnd[0]/tbar[1]/btn[5]").press        'Нажали Галку в Structure List
         
         'Анализ - вернулись ли в основное окно?
@@ -94,31 +101,32 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
             session.findById("wnd[1]/tbar[0]/btn[0]").press        'На сообщении нажали галку
             pressF3()                                            'Вернулись в главное окно
             Call InformUser(sapRow, obj, cEmpty, cBoth, "", ArticlesExcel, intRow, tblArea)
-        End If
-        
-        'Анализ - сколько строк вставилось 
-        newsaprow = grid.currentRow
-        diff = newsaprow - saprow
-        
-        lines = ""
-        For i = newsaprow To saprow Step - 1
+
+        Else
+            
+            'Анализ - сколько строк вставилось 
+            newsaprow = grid.currentRow
+            diff = newsaprow - saprow
+            
+            lines = ""
+            For i = newsaprow To saprow Step - 1
+                If lines <> "" Then
+                    lines = lines & ", "
+                End If
+                lines = lines & session.findById(tblArea & "/txtVBAP-POSNR[0," & i & "]").text
+            Next
             If lines <> "" Then
-                lines = lines & ", "
+                lines = "[" & lines & "]"
             End If
-            lines = lines & session.findById(tblArea & "/txtVBAP-POSNR[0," & i & "]").text
-        Next
-        If lines <> "" Then
-            lines = "[" & lines & "]"
-        End If
-        
-        If (diff = 1) Then
-            Call InformUser(sapRow, obj, cOne, cExcel, lines, ArticlesExcel, intRow, tblArea)
-        End If
-        If (diff > 1) Then
-            Call InformUser(sapRow, obj, cMulti, cExcel, lines, ArticlesExcel, intRow, tblArea)
-        End If
-        
-    End If	'
+            
+            If (diff = 1) Then
+                Call InformUser(sapRow, obj, cOne, cExcel, lines, ArticlesExcel, intRow, tblArea)
+            End If
+            If (diff > 1) Then
+                Call InformUser(sapRow, obj, cMulti, cExcel, lines, ArticlesExcel, intRow, tblArea)
+            End If
+        End If	'Articles entered
+    End If	'BOM exists
     
     intRow = intRow + 1
 Loop
