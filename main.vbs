@@ -24,7 +24,7 @@ session.findById("wnd[0]").sendVKey 0
 ' Считаем, что в 25 строке - начало таблицы для обработки
 intRow = 25
 ' Цикл для каждой строки
-'On Error Resume Next
+On Error Resume Next
 Do Until ArticlesExcel.Cells(intRow,9).Value = ""
     Err.Clear
 	tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
