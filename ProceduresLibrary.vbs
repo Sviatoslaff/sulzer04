@@ -3,13 +3,13 @@
 ' sw - software which needs update by info 
 Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
     
-    Select Case obj
-        Case cBOM
+    If obj = cBOM     
         If res = cEmpty Then
             typeText = "Please clarify pump serial number / Existence of BOM on factory"
         End If
-        
-        Case cDIN
+    End If
+
+    If obj = cDIN
         If res = cEmpty Then
             typeText = "There is not DIN number in pump BOM. Please check DIN number"
         ElseIf res = cOne Then
@@ -17,8 +17,9 @@ Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
         ElseIf res = cMulti Then
             typeText = "Please choose the exact Part number / Article nom "
         End If
-        
-        Case cArticle
+    End If
+
+    If obj = cArticle
         If res = cEmpty Then
             typeText = "There is not Part number / Article nom in pump BOM. Please check Part number / Article nom"
         ElseIf res = cOne Then
@@ -26,8 +27,9 @@ Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
         ElseIf res = cMulti Then
             typeText = "Ok. Part number / Article nom info added. First DIN number added"
         End If
-        
-        Case cDINArt
+    End If
+
+    If obj = cDINArt
         If res = cEmpty Then
             typeText = "There is not Part number / Article nom in pump BOM. Please check Part number / Article nom"
         ElseIf res = cOne Then
@@ -35,18 +37,17 @@ Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
         ElseIf res = cMulti Then
             typeText = "No Multi Case"
         End If
-        
-    End Select
+    End If
     
     If sw = cExcel Or sw = cBoth Then
         If comment <> "" Then
-            comment = comment & "Lines:" & comment
+            comment = " Lines:" & comment
         End If
         ArticlesExcel.Cells(intRow, 10).Value = typeText & comment
     End If
     
     ' The focus on the SAP inquiry screen
-    If res = cEmpty And (res = cSAP Or res = cBoth) Then
+    If (res = cEmpty) And (res = cSAP Or res = cBoth) Then
         session.findById(tblArea & "/ctxtRV45A-MABNR[1," & row & "]").text = "MISC"            'Should be MISC
         session.findById(tblArea & "/ctxtRV45A-KWMENG[12" & row & "]").text = ArticlesExcel.Cells(intRow, 8).Value
         btnArea = "wnd[0]/usr/tabsTAXI_TABSTRIP_OVERVIEW/tabpT\02/ssubSUBSCREEN_BODY:SAPMV45A:4411/subSUBSCREEN_TC:SAPMV45A:4912/subSUBSCREEN_BUTTONS:SAPMV45A:4050"

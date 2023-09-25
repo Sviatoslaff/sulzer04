@@ -40,11 +40,12 @@ On Error Resume Next
 	session.findById("wnd[1]/usr/ctxtVIQMEL-IWERK").caretPosition = 4
 	session.findById("wnd[1]/usr/btnG_ENTER").press
 
-    WScript.Delay 200
+    WScript.Delay 500
 	' BOM не существует - выполняем заполнение текстом
     If session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell",False) Is Nothing Then
 		session.findById("wnd[1]/usr/btnG_CANCEL").press
 		Call InformUser(sapRow, cBOM, cEmpty, cBoth, "", ArticlesExcel, intRow, tblArea)		'Обработка 
+		intRow = intRow + 1
 		Continue		' Новая итерация Do - Loop
     End If
     
@@ -118,8 +119,7 @@ On Error Resume Next
 		Call InformUser(sapRow, obj, cMulti, cExcel, lines, ArticlesExcel, intRow, tblArea)
 	End If 
 
- 	intRow = intRow + 1
-
+	intRow = intRow + 1
  Loop
 
 objWorkbook.Save
