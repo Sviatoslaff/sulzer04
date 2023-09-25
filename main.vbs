@@ -18,8 +18,7 @@ session.findById("wnd[0]").sendVKey 0
 session.findById("wnd[0]/usr/ctxtVBAK-VBELN").text = qtn
 session.findById("wnd[0]").sendVKey 0
 
-tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
-Set grid = session.findById(tblArea)
+
 
 
 ' Считаем, что в 25 строке - начало таблицы для обработки
@@ -28,6 +27,8 @@ intRow = 25
 'On Error Resume Next
 Do Until ArticlesExcel.Cells(intRow,9).Value = ""
     Err.Clear
+	tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
+	Set grid = session.findById(tblArea)	
     sapRow = grid.currentRow                'Here is the current row of the QTN
     equipment = ArticlesExcel.Cells(intRow, 9).Value
     Qty = ArticlesExcel.Cells(intRow, 8).Value
@@ -40,7 +41,7 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
     session.findById("wnd[1]/usr/ctxtVIQMEL-IWERK").caretPosition = 4
     session.findById("wnd[1]/usr/btnG_ENTER").press
     
-    WScript.Delay 500
+    WScript.Sleep 500
     
     If session.findById("wnd[2]/usr/ctxtVBAKKOM-AUART",False) Is Nothing Then
         ' BOM не существует - выполняем заполнение текстом
@@ -105,7 +106,9 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
         Else
             
             'Анализ - сколько строк вставилось 
-            newsaprow = grid.currentRow
+			tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
+			Set grid = session.findById(tblArea)				
+            newsaprow = grid.currentRow - 1
             diff = newsaprow - saprow
             
             lines = ""
