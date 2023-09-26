@@ -47,7 +47,7 @@ Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
     End If
     
     ' The focus on the SAP inquiry screen
-    If (res = cEmpty) And (res = cSAP Or res = cBoth) Then
+    If (res = cEmpty) And (sw = cSAP Or sw = cBoth) Then
 
         tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id	
    
