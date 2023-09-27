@@ -143,7 +143,8 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
                     Call InformUser(sapRow, obj, cMulti, cExcel, lines, ArticlesExcel, intRow, tblArea)
                 End If
             Else    ' Case23 - Both DIN and Article provided
-                If Parts.Count = 1 Then
+                MsgBox "Case 23" 
+                If arrParts.GetLength(0) = 1 Then
                     If arrParts(0,2) = DIN And arrParts(0,1) = Article Then
                         MsgBox "1: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
                         Call InformUser(sapRow, obj, cOne, cExcel, lines, ArticlesExcel, intRow, tblArea)
