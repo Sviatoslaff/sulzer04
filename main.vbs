@@ -81,7 +81,7 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
         
         'Сценарий 2.3
         If (Case23) Then
-            session.findById("wnd[1]/usr/sub:SAPLSPO4:0300/txtSVALD-VALUE[0,21]").text = Article
+            session.findById("wnd[1]/usr/sub:SAPLSPO4:0300/ctxtSVALD-VALUE[0,21]").text = Article
             session.findById("wnd[1]/usr/sub:SAPLSPO4:0300/txtSVALD-VALUE[1,21]").text = DIN
             obj = cDINArt
         End If
@@ -92,8 +92,8 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
         Set Parts = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetSelectedNodes
         If Not Parts Is Nothing Then
             For Each part In Parts
-                article_txt = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").selectItem part,"1"
-                din_txt = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").selectItem part,"6"
+                session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").selectItem part, "1"
+                session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").selectItem part, "6"
                 MsgBox article_txt & " " & din_txt
             Next
         End If
