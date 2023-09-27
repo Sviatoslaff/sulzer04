@@ -8,7 +8,7 @@ Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
             typeText = "Please clarify pump serial number / Existence of BOM on factory"
         End If
     End If
-
+    
     If obj = cDIN Then
         If res = cEmpty Then
             typeText = "There is not DIN number in pump BOM. Please check DIN number"
@@ -18,7 +18,7 @@ Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
             typeText = "Please choose the exact Part number / Article nom "
         End If
     End If
-
+    
     If obj = cArticle Then
         If res = cEmpty Then
             typeText = "There is not Part number / Article nom in pump BOM. Please check Part number / Article nom"
@@ -28,14 +28,21 @@ Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
             typeText = "Ok. Part number / Article nom info added. First DIN number added"
         End If
     End If
-
+    
     If obj = cDINArt Then
         If res = cEmpty Then
-            typeText = "There is not Part number / Article nom in pump BOM. Please check Part number / Article nom"
+            typeText = "There are not DIN number and Part number / Article nom in pump BOM. Please check your request"
         ElseIf res = cOne Then
             typeText = "OK, DIN and Part number / Article nom info added"
-        ElseIf res = cMulti Then
-            typeText = "No Multi Case"
+        ElseIf res = cDINWrong Then
+            typeText = "There Is Not this DIN In BOM, Part number / Article nom info added" & vbNewLine & _
+            "(DIN Is Not the same you requested)"
+        ElseIf res = cArtiWrong Then
+            typeText = "There Is Not this Part number / Article nom In BOM," & vbNewLine & _
+            "DIN info added (Part number / Article nom Is Not the same you requested)"
+        ElseIf res = cDINArtWrong Then
+            typeText = "DIN And Part number / Article nom Do Not correlate In BOM." & vbNewLine & _
+            "Please choose one (DIN Or Part number / Article nom)"
         End If
     End If
     
@@ -48,25 +55,25 @@ Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
     
     ' The focus on the SAP inquiry screen
     If (res = cEmpty) And (sw = cSAP Or sw = cBoth) Then
-
-        tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id	
-   
+        
+        tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
+        
         session.findById(tblArea & "/ctxtRV45A-MABNR[1," & row & "]").text = "MISC"            'Should be MISC
         session.findById(tblArea & "/txtVBAP-ZMENG[2" & row & "]").text = ArticlesExcel.Cells(intRow, 8).Value
-'        Set btnArea = UserArea.findByName("/btnBT_ITEM").Id
-'        btnArea = "wnd[0]/usr/tabsTAXI_TABSTRIP_OVERVIEW/tabpT\02/ssubSUBSCREEN_BODY:SAPMV45A:4411/subSUBSCREEN_TC:SAPMV45A:4912/subSUBSCREEN_BUTTONS:SAPMV45A:4050"
-'        Set btnItem = session.findById(btnArea)
-'        btnItem.press
+        '        Set btnArea = UserArea.findByName("/btnBT_ITEM").Id
+        '        btnArea = "wnd[0]/usr/tabsTAXI_TABSTRIP_OVERVIEW/tabpT\02/ssubSUBSCREEN_BODY:SAPMV45A:4411/subSUBSCREEN_TC:SAPMV45A:4912/subSUBSCREEN_BUTTONS:SAPMV45A:4050"
+        '        Set btnItem = session.findById(btnArea)
+        '        btnItem.press
         
-'        session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_ITEM/tabpT\09").Select
-'        txtArea = UserArea.findByName("SPLITTER_CONTAINER", "GuiCustomControl").Id
-'        Set textField = session.findById(txtArea & "/shellcont/shellcont/shell/shellcont[1]/shell")
-'        textField.text = typeText
-'        session.findById("wnd[0]/tbar[0]/btn[3]").press
-
+        '        session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_ITEM/tabpT\09").Select
+        '        txtArea = UserArea.findByName("SPLITTER_CONTAINER", "GuiCustomControl").Id
+        '        Set textField = session.findById(txtArea & "/shellcont/shellcont/shell/shellcont[1]/shell")
+        '        textField.text = typeText
+        '        session.findById("wnd[0]/tbar[0]/btn[3]").press
+        
         pressEnter()
         pressEnter()
-
+        
     End If
     
 End Sub
