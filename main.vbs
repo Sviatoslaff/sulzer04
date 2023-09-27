@@ -22,7 +22,7 @@ session.findById("wnd[0]").sendVKey 0
 
 
 ' Считаем, что в 25 строке - начало таблицы для обработки
-intRow = 25
+intRow = 33
 ' Цикл для каждой строки
 On Error Resume Next
 Do Until ArticlesExcel.Cells(intRow,9).Value = ""
@@ -145,10 +145,13 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
             Else    ' Case23 - Both DIN and Article provided
                 If Parts.Count = 1 Then
                     If arrParts(0,2) = DIN And arrParts(0,1) = Article Then
+                        MsgBox "1: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
                         Call InformUser(sapRow, obj, cOne, cExcel, lines, ArticlesExcel, intRow, tblArea)
                     ElseIf arrParts(0,2) <> DIN Then
+                        MsgBox "2: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
                         Call InformUser(sapRow, obj, cDINWrong, cExcel, lines, ArticlesExcel, intRow, tblArea)
                     ElseIf arrParts(0,1) <> Article Then
+                        MsgBox "3: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
                         Call InformUser(sapRow, obj, cArtiWrong, cExcel, lines, ArticlesExcel, intRow, tblArea)
                     End If
                 Else 
