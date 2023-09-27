@@ -94,7 +94,7 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
         If (Not (Parts Is Nothing)) Then
             For i = 0 To Parts.Count() - 1
                 nodekey = Parts.Item(i)
-                session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").ensureVisibleHorizontalItem(nodekey,"1")
+                session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").ensureVisibleHorizontalItem nodekey,"1" 
                 arrParts(i,1) = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetItemText(nodekey, "1")
                 arrParts(i,2) = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetItemText(nodekey, "6") 'DIN
                 MsBox (i & " " & arrParts(i,1) & " " & arrParts(i,2) )
@@ -144,11 +144,11 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
                 End If
             Else    ' Case23 - Both DIN and Article provided
                 If Parts.Count = 1 Then
-                    If Parts (0,2) = DIN And Parts (0,1) = Article Then
+                    If arrParts(0,2) = DIN And arrParts(0,1) = Article Then
                         Call InformUser(sapRow, obj, cOne, cExcel, lines, ArticlesExcel, intRow, tblArea)
-                    ElseIf Parts (0,2) <> DIN Then
+                    ElseIf arrParts(0,2) <> DIN Then
                         Call InformUser(sapRow, obj, cDINWrong, cExcel, lines, ArticlesExcel, intRow, tblArea)
-                    ElseIf Parts (0,1) <> Article Then
+                    ElseIf arrParts(0,1) <> Article Then
                         Call InformUser(sapRow, obj, cArtiWrong, cExcel, lines, ArticlesExcel, intRow, tblArea)
                     End If
                 Else 
