@@ -59,7 +59,7 @@ Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
         tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
         
         session.findById(tblArea & "/ctxtRV45A-MABNR[1," & row & "]").text = "MISC"            'Should be MISC
-        session.findById(tblArea & "/txtVBAP-ZMENG[2" & row & "]").text = ArticlesExcel.Cells(intRow, 8).Value
+        session.findById(tblArea & "/txtVBAP-ZMENG[2," & row & "]").text = ArticlesExcel.Cells(intRow, 8).Value
         '        Set btnArea = UserArea.findByName("/btnBT_ITEM").Id
         '        btnArea = "wnd[0]/usr/tabsTAXI_TABSTRIP_OVERVIEW/tabpT\02/ssubSUBSCREEN_BODY:SAPMV45A:4411/subSUBSCREEN_TC:SAPMV45A:4912/subSUBSCREEN_BUTTONS:SAPMV45A:4050"
         '        Set btnItem = session.findById(btnArea)

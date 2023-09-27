@@ -90,10 +90,11 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
         
         'Анализ в окне выбора Structure List
         Set Parts = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetSelectedNodes
-        Dim arrParts
+        Dim arrParts()
         If (Not (Parts Is Nothing)) Then
             For i = 0 To Parts.Count() - 1
                 nodekey = Parts.Item(i)
+                session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").ensureVisibleHorizontalItem(nodekey,"1")
                 arrParts(i,1) = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetItemText(nodekey, "1")
                 arrParts(i,2) = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetItemText(nodekey, "6") 'DIN
                 MsBox (i & " " & arrParts(i,1) & " " & arrParts(i,2) )
