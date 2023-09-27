@@ -27,11 +27,12 @@ intRow = 25
 On Error Resume Next
 Do Until ArticlesExcel.Cells(intRow,9).Value = ""
     Err.Clear
-	tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
-	Set grid = session.findById(tblArea)	
+    tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
+    Set grid = session.findById(tblArea)
     sapRow = grid.currentRow                'Here is the current row of the QTN
     equipment = ArticlesExcel.Cells(intRow, 9).Value
     Qty = ArticlesExcel.Cells(intRow, 8).Value
+    MsgBox "Обрабатывается строка " & ArticlesExcel.Cells(intRow, 2).Value
     
     ' Call Equipment dialog and input equipment
     session.findById("wnd[0]/tbar[1]/btn[22]").press
@@ -87,40 +88,41 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
         
         session.findById("wnd[1]").sendVKey 0                'Нажали Enter в окне Find
         
-		'Анализ в окне выбора 
-		Set Parts = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetSelectedNodes
-		If Parts.Count > 0 Then
-		For each part In Parts
-			MsgBox part
-			nodetxt = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetNodeTextByKey(part)
-		Next
-		End If
-
+        'Анализ в окне выбора 
+        Set Parts = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetSelectedNodes
+        If Not Parts Is Nothing Then
+            For Each part In Parts
+                article_txt = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").selectItem part,"1"
+                din_txt = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").selectItem part,"6"
+                MsgBox article_txt & " " & din_txt
+            Next
+        End If
+        
         session.findById("wnd[0]/tbar[1]/btn[5]").press        'Нажали Галку в Structure List
         
         'Анализ - вернулись ли в основное окно?
         If session.findById(tblArea, False) Is Nothing Then
             'Не вернулись
             session.findById("wnd[1]/tbar[0]/btn[0]").press        'На сообщении нажали галку
-            pressF3()                                            'Вернулись в главное окно
+            pressF3()                                               'Вернулись в главное окно
             Call InformUser(sapRow, obj, cEmpty, cBoth, "", ArticlesExcel, intRow, tblArea)
-
+            
         Else
             
             'Анализ - сколько строк вставилось 
-			tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
-			Set grid = session.findById(tblArea)				
+            tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
+            Set grid = session.findById(tblArea)
             newsaprow = grid.currentRow - 1
             diff = newsaprow - saprow
             
-			WScript.Sleep 300
-
+            WScript.Sleep 300
+            
             lines = ""
             For i = newsaprow To saprow Step - 1
                 If lines <> "" Then
                     lines = lines & ", "
                 End If
-                lines = lines & session.findById(tblArea & "/txtVBAP-POSNR[0," & i & "]").text	
+                lines = lines & session.findById(tblArea & "/txtVBAP-POSNR[0," & i & "]").text
             Next
             If lines <> "" Then
                 lines = "[" & lines & "]"
@@ -132,8 +134,8 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
             If (diff > 1) Then
                 Call InformUser(sapRow, obj, cMulti, cExcel, lines, ArticlesExcel, intRow, tblArea)
             End If
-        End If	'Articles entered
-    End If	'BOM exists
+        End If'Articles entered
+    End If'BOM exists
     
     intRow = intRow + 1
 Loop
