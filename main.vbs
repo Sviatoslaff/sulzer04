@@ -146,16 +146,16 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
                     Call InformUser(sapRow, obj, cMulti, cExcel, lines, ArticlesExcel, intRow, tblArea)
                 End If
             Else    ' Case23 - Both DIN and Article provided
-                MsgBox "Case 23" 
+'                MsgBox "Case 23" 
                 If UBound(arrParts) = 1 Then
                     If arrParts(0,2) = DIN And arrParts(0,1) = Article Then
-                        MsgBox "1: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
+'                        MsgBox "1: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
                         Call InformUser(sapRow, obj, cOne, cExcel, lines, ArticlesExcel, intRow, tblArea)
                     ElseIf arrParts(0,2) <> DIN Then
-                        MsgBox "2: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
+'                        MsgBox "2: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
                         Call InformUser(sapRow, obj, cDINWrong, cExcel, lines, ArticlesExcel, intRow, tblArea)
                     ElseIf arrParts(0,1) <> Article Then
-                        MsgBox "3: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
+'                        MsgBox "3: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
                         Call InformUser(sapRow, obj, cArtiWrong, cExcel, lines, ArticlesExcel, intRow, tblArea)
                     End If
                 Else 
