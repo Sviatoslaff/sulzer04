@@ -172,4 +172,7 @@ objWorkbook.Save
 objWorkbook.Close False
 ArticlesExcel.Quit
 
+session.findById("wnd[0]/tbar[0]/btn[11]").press
+pressEnter()
+
 MsgBox "The script finished!", vbSystemModal Or vbInformation

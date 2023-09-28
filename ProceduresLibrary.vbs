@@ -61,15 +61,25 @@ Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
         session.findById(tblArea & "/ctxtRV45A-MABNR[1," & row & "]").text = "MISC"            'Should be MISC
         session.findById(tblArea & "/txtVBAP-ZMENG[2," & row & "]").text = ArticlesExcel.Cells(intRow, 8).Value
 
+        pressEnter()
+        pressEnter()
+
+        session.findById("wnd[0]/tbar[0]/btn[11]").press            'SAVE
+        WScript.Sleep 300
+        pressEnter()
+
+
+        tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
         session.findById(tblArea & "/ctxtRV45A-MABNR[1," & row & "]").setFocus
         session.findById("wnd[0]").sendVKey 2       'Двойной клик по позиции
 
         ' Заполнение текста
-        session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_ITEM/tabpT\09").Select       'Тексты
-        txtArea = UserArea.findByName("SPLITTER_CONTAINER", "GuiCustomControl").Id
-        Set textField = session.findById(txtArea & "/shellcont/shellcont/shell/shellcont[1]/shell")
-        textField.text = typeText
+        ' session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_ITEM/tabpT\09").Select       'Тексты
+        ' txtArea = UserArea.findByName("SPLITTER_CONTAINER", "GuiCustomControl").Id
+        ' Set textField = session.findById(txtArea & "/shellcont/shellcont/shell/shellcont[1]/shell")
+        ' textField.text = typeText
 
+        WScript.Sleep 200
         session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_ITEM/tabpT\13").select       'Допданные 
 
         session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_ITEM/tabpT\13/ssubSUBSCREEN_BODY:SAPMV45A:4462/subKUNDEN-SUBSCREEN_8459:SAPMV45A:8459/cmbVBAP-ZZ_PMPTY").key = "00000"
@@ -80,8 +90,7 @@ Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
         
         pressF3()
 
-        pressEnter()
-        pressEnter()
+
         
     End If
     
