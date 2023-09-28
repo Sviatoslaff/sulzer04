@@ -132,6 +132,7 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
                     lines = lines & ", "
                 End If
                 lines = lines & session.findById(tblArea & "/txtVBAP-POSNR[0," & i & "]").text
+                session.findById(tblArea & "/txtVBAP-ZMENG[2," & i & "]").text = Qty
             Next
             If lines <> "" Then
                 lines = "[" & lines & "]"
