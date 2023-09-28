@@ -11,6 +11,7 @@ Set ArticlesExcel = CreateObject("Excel.Application")
 Set objWorkbook = ArticlesExcel.Workbooks.Open (excelFile)
 
 qtn = ArticlesExcel.Cells(22, 4).Value
+Dim arrParts()
 
 session.findById("wnd[0]").maximize
 session.findById("wnd[0]/tbar[0]/okcd").text = "VA22"
@@ -89,15 +90,16 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
         session.findById("wnd[1]").sendVKey 0                'Нажали Enter в окне Find
         
         'Анализ в окне выбора Structure List
-        Set Parts = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetSelectedNodes
-        Dim arrParts()
+        Set Parts = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetSelectedNodes()
+        ReDim arrParts(Parts.Count(), 2)
         If (Not (Parts Is Nothing)) Then
             For i = 0 To Parts.Count() - 1
                 nodekey = Parts.Item(i)
                 session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").ensureVisibleHorizontalItem nodekey,"1" 
+                WScript.Sleep 300
                 arrParts(i,1) = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetItemText(nodekey, "1")
                 arrParts(i,2) = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetItemText(nodekey, "6") 'DIN
-                MsBox (i & " " & arrParts(i,1) & " " & arrParts(i,2) )
+                MsgBox ("Values: "  & arrParts(i,1) & " " & arrParts(i,2) )
             Next
         End If
         
@@ -144,7 +146,7 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
                 End If
             Else    ' Case23 - Both DIN and Article provided
                 MsgBox "Case 23" 
-                If arrParts.GetLength(0) = 1 Then
+                If UBound(arrParts) = 1 Then
                     If arrParts(0,2) = DIN And arrParts(0,1) = Article Then
                         MsgBox "1: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
                         Call InformUser(sapRow, obj, cOne, cExcel, lines, ArticlesExcel, intRow, tblArea)
