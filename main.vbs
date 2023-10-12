@@ -72,12 +72,14 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
         If (Case21) Then
             session.findById("wnd[1]/usr/sub:SAPLSPO4:0300/ctxtSVALD-VALUE[0,21]").text = Article
             obj = cArticle
+MsgBox "Case 2.1"
         End If
         
         'Сценарий 2.2
         If (Case22) Then
             session.findById("wnd[1]/usr/sub:SAPLSPO4:0300/txtSVALD-VALUE[1,21]").text = DIN
             obj = cDIN
+MsgBox "Case 2.2"
         End If
         
         'Сценарий 2.3
@@ -85,13 +87,14 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
             session.findById("wnd[1]/usr/sub:SAPLSPO4:0300/ctxtSVALD-VALUE[0,21]").text = Article
             session.findById("wnd[1]/usr/sub:SAPLSPO4:0300/txtSVALD-VALUE[1,21]").text = DIN
             obj = cDINArt
+MsgBox "Case 2.3"
         End If
         
         session.findById("wnd[1]").sendVKey 0                'Нажали Enter в окне Find
         
         'Анализ в окне выбора Structure List
         Set Parts = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetSelectedNodes()
-        ReDim arrParts(Parts.Count(), 2)
+        ReDim arrParts(Parts.Count(), 3)
         If (Not (Parts Is Nothing)) Then
             For i = 0 To Parts.Count() - 1
                 nodekey = Parts.Item(i)
