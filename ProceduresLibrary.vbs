@@ -3,6 +3,7 @@
 ' sw - software which needs update by info 
 Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
     
+MsgBox "Informer: " & row & ", " & obj & ", " & res & ", " & intRow
     If obj = cBOM Then
         If res = cEmpty Then
             typeText = "Please clarify pump serial number / Existence of BOM on factory"
