@@ -23,7 +23,7 @@ session.findById("wnd[0]").sendVKey 0
 
 
 ' Считаем, что в 25 строке - начало таблицы для обработки
-intRow = 33
+intRow = 25
 ' Цикл для каждой строки
 On Error Resume Next
 Do Until ArticlesExcel.Cells(intRow,9).Value = ""
@@ -72,12 +72,14 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
         If (Case21) Then
             session.findById("wnd[1]/usr/sub:SAPLSPO4:0300/ctxtSVALD-VALUE[0,21]").text = Article
             obj = cArticle
+MsgBox "Сценарий 2.1"
         End If
         
         'Сценарий 2.2
         If (Case22) Then
             session.findById("wnd[1]/usr/sub:SAPLSPO4:0300/txtSVALD-VALUE[1,21]").text = DIN
             obj = cDIN
+MsgBox "Сценарий 2.2"
         End If
         
         'Сценарий 2.3
@@ -85,13 +87,14 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
             session.findById("wnd[1]/usr/sub:SAPLSPO4:0300/ctxtSVALD-VALUE[0,21]").text = Article
             session.findById("wnd[1]/usr/sub:SAPLSPO4:0300/txtSVALD-VALUE[1,21]").text = DIN
             obj = cDINArt
+MsgBox "Сценарий 2.3"
         End If
         
         session.findById("wnd[1]").sendVKey 0                'Нажали Enter в окне Find
         
         'Анализ в окне выбора Structure List
         Set Parts = session.findById("wnd[0]/usr/cntlTREE_CONTAINER/shellcont/shell").GetSelectedNodes()
-        ReDim arrParts(Parts.Count(), 2)
+        ReDim arrParts(Parts.Count(), 3)
         If (Not (Parts Is Nothing)) Then
             For i = 0 To Parts.Count() - 1
                 nodekey = Parts.Item(i)
@@ -122,7 +125,8 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
             Set grid = session.findById(tblArea)
             newsaprow = grid.currentRow - 1
             diff = newsaprow - sapRow + 1
-            
+MsgBox "Вставилось строк: " & diff
+
             WScript.Sleep 300
             
             ' Находим номера - вставленные позиции
@@ -149,13 +153,13 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
 '                MsgBox "Case 23" 
                 If UBound(arrParts) = 1 Then
                     If arrParts(0,2) = DIN And arrParts(0,1) = Article Then
-'                        MsgBox "1: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
+                        MsgBox "1: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
                         Call InformUser(sapRow, obj, cOne, cExcel, lines, ArticlesExcel, intRow, tblArea)
                     ElseIf arrParts(0,2) <> DIN Then
-'                        MsgBox "2: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
+                        MsgBox "2: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
                         Call InformUser(sapRow, obj, cDINWrong, cExcel, lines, ArticlesExcel, intRow, tblArea)
                     ElseIf arrParts(0,1) <> Article Then
-'                        MsgBox "3: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
+                        MsgBox "3: " & arrParts(0,1) & " " & Article & " " & arrParts(0,2) & " " & DIN 
                         Call InformUser(sapRow, obj, cArtiWrong, cExcel, lines, ArticlesExcel, intRow, tblArea)
                     End If
                 Else 

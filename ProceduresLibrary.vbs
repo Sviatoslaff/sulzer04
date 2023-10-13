@@ -53,7 +53,7 @@ Sub InformUser(row, obj, res, sw, comment, ArticlesExcel, intRow, tblArea)
         ArticlesExcel.Cells(intRow, 10).Value = typeText & comment
     End If
     
-    ' The focus on the SAP inquiry screen
+    ' The focus is on the SAP inquiry screen
     If (res = cEmpty) And (sw = cSAP Or sw = cBoth) Then
         
         tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
