@@ -31,6 +31,7 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
     tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
     Set grid = session.findById(tblArea)
     sapRow = grid.currentRow                'Here is the current visible row of the QTN
+MsgBox "Row: " & sapRow
 
     If sapRow > 7 Then
         goto_pos = session.findById(tblArea & "/txtVBAP-POSNR[0," & sapRow - 5 & "]").text
