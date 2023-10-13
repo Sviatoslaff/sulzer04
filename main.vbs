@@ -125,7 +125,7 @@ MsgBox "Case 2.3"
             Set grid = session.findById(tblArea)
             newsaprow = grid.currentRow - 1
             diff = newsaprow - sapRow + 1
-MsgBox "Вставилось строк: " & diff
+MsgBox "Positions inserted: " & diff & ": " & sapRow & ", " & newsaprow
 
             WScript.Sleep 300
             
