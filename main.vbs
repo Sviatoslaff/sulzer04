@@ -72,14 +72,14 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
         If (Case21) Then
             session.findById("wnd[1]/usr/sub:SAPLSPO4:0300/ctxtSVALD-VALUE[0,21]").text = Article
             obj = cArticle
-MsgBox "Сценарий 2.1"
+MsgBox "Case 2.1"
         End If
         
         'Сценарий 2.2
         If (Case22) Then
             session.findById("wnd[1]/usr/sub:SAPLSPO4:0300/txtSVALD-VALUE[1,21]").text = DIN
             obj = cDIN
-MsgBox "Сценарий 2.2"
+MsgBox "Case 2.2"
         End If
         
         'Сценарий 2.3
@@ -87,7 +87,7 @@ MsgBox "Сценарий 2.2"
             session.findById("wnd[1]/usr/sub:SAPLSPO4:0300/ctxtSVALD-VALUE[0,21]").text = Article
             session.findById("wnd[1]/usr/sub:SAPLSPO4:0300/txtSVALD-VALUE[1,21]").text = DIN
             obj = cDINArt
-MsgBox "Сценарий 2.3"
+MsgBox "Case 2.3"
         End If
         
         session.findById("wnd[1]").sendVKey 0                'Нажали Enter в окне Find
