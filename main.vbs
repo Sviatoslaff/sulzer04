@@ -30,7 +30,22 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
     Err.Clear
     tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
     Set grid = session.findById(tblArea)
-    sapRow = grid.currentRow                'Here is the current row of the QTN
+    sapRow = grid.currentRow                'Here is the current visible row of the QTN
+
+    If sapRow > 7 Then
+        goto_pos = session.findById(tblArea & "/txtVBAP-POSNR[0," & sapRow - 5 & "]").text
+        session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_OVERVIEW/tabpT\01/ssubSUBSCREEN_BODY:SAPMV45A:4426/subSUBSCREEN_TC:SAPMV45A:4908/subSUBSCREEN_BUTTONS:SAPMV45A:4050/btnBT_POPO").press
+        session.findById("wnd[1]/usr/txtRV45A-POSNR").text = goto_pos
+        session.findById("wnd[1]/usr/txtRV45A-POSNR").caretPosition = 3
+        session.findById("wnd[1]").sendVKey 0
+        WScript.Sleep 300
+
+        tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
+        Set grid = session.findById(tblArea)
+        sapRow = grid.currentRow                'Here is the current visible row of the QTN
+    
+    End If        
+
     equipment = ArticlesExcel.Cells(intRow, 9).Value
     Qty = ArticlesExcel.Cells(intRow, 8).Value
     MsgBox "Excel item to go: " & ArticlesExcel.Cells(intRow, 2).Value
@@ -126,13 +141,6 @@ MsgBox "Case 2.3"
             newsaprow = grid.currentRow - 1
             diff = newsaprow - sapRow + 1
 MsgBox "Positions inserted: " & diff & ": " & sapRow & ", " & newsaprow
-
-goto_pos = session.findById(tblArea & "/txtVBAP-POSNR[0," & sapRow & "]").text
-session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_OVERVIEW/tabpT\01/ssubSUBSCREEN_BODY:SAPMV45A:4426/subSUBSCREEN_TC:SAPMV45A:4908/subSUBSCREEN_BUTTONS:SAPMV45A:4050/btnBT_POPO").press
-session.findById("wnd[1]/usr/txtRV45A-POSNR").text = goto_pos
-session.findById("wnd[1]/usr/txtRV45A-POSNR").caretPosition = 3
-session.findById("wnd[1]").sendVKey 0
-
 
             WScript.Sleep 300
             
