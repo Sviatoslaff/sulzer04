@@ -34,6 +34,7 @@ Do Until ArticlesExcel.Cells(intRow,9).Value = ""
 MsgBox "Row: " & sapRow
 
     If sapRow > 7 Then
+        rowCount = grid.RowCount
         goto_pos = session.findById(tblArea & "/txtVBAP-POSNR[0," & sapRow - 5 & "]").text
         session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_OVERVIEW/tabpT\01/ssubSUBSCREEN_BODY:SAPMV45A:4426/subSUBSCREEN_TC:SAPMV45A:4908/subSUBSCREEN_BUTTONS:SAPMV45A:4050/btnBT_POPO").press
         session.findById("wnd[1]/usr/txtRV45A-POSNR").text = goto_pos
@@ -41,9 +42,13 @@ MsgBox "Row: " & sapRow
         session.findById("wnd[1]").sendVKey 0
         WScript.Sleep 300
 
+        rowCount = rowCount - 5
         tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
         Set grid = session.findById(tblArea)
+        Set cell = grid.GetCell(RowCount, 1)
+        cell.setFocus()
         sapRow = grid.currentRow                'Here is the current visible row of the QTN
+MsgBox "new Row: " & sapRow
     
     End If        
 
