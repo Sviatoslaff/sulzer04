@@ -127,6 +127,13 @@ MsgBox "Case 2.3"
             diff = newsaprow - sapRow + 1
 MsgBox "Positions inserted: " & diff & ": " & sapRow & ", " & newsaprow
 
+goto_pos = session.findById(tblArea & "/txtVBAP-POSNR[0," & sapRow & "]").text
+session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_OVERVIEW/tabpT\01/ssubSUBSCREEN_BODY:SAPMV45A:4426/subSUBSCREEN_TC:SAPMV45A:4908/subSUBSCREEN_BUTTONS:SAPMV45A:4050/btnBT_POPO").press
+session.findById("wnd[1]/usr/txtRV45A-POSNR").text = goto_pos
+session.findById("wnd[1]/usr/txtRV45A-POSNR").caretPosition = 3
+session.findById("wnd[1]").sendVKey 0
+
+
             WScript.Sleep 300
             
             ' Находим номера - вставленные позиции
