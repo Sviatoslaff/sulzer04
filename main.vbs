@@ -42,13 +42,14 @@ MsgBox "Row: " & sapRow
         session.findById("wnd[1]").sendVKey 0
         WScript.Sleep 300
 
-        rowCount = rowCount - 5
         tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
         Set grid = session.findById(tblArea)
-        Set cell = grid.GetCell(RowCount, 1)
+        sapRow = grid.currentRow                'Here is the current visible row of the QTN
+        Set cell = grid.GetCell(sapRow + 6, 1)
         cell.setFocus()
         sapRow = grid.currentRow                'Here is the current visible row of the QTN
-MsgBox "new Row: " & sapRow
+
+'MsgBox "new Row: " & sapRow
     
     End If        
 
