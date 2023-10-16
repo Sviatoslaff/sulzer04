@@ -45,7 +45,7 @@ MsgBox "Row: " & sapRow
         tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
         Set grid = session.findById(tblArea)
         sapRow = grid.currentRow                'Here is the current visible row of the QTN
-        Set cell = grid.GetCell(sapRow + 6, 1)
+        Set cell = grid.GetCell(sapRow + 5, 1)
         cell.setFocus()
         sapRow = grid.currentRow                'Here is the current visible row of the QTN
 
