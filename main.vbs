@@ -153,7 +153,7 @@ MsgBox "Positions inserted: " & diff & ": " & sapRow & ", " & newsaprow
             
             ' Находим номера - вставленные позиции
             lines = ""
-            newsaprow = newsaprow + 1
+            newsaprow = newsaprow - 1
             For i = newsaprow To saprow Step - 1
                 If lines <> "" Then
                     lines = lines & ", "
