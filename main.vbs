@@ -49,7 +49,7 @@ MsgBox "Row: " & sapRow
         cell.setFocus()
         sapRow = grid.currentRow                'Here is the current visible row of the QTN
 
-'MsgBox "new Row: " & sapRow
+MsgBox "new Row: " & sapRow
     
     End If        
 
@@ -145,14 +145,15 @@ MsgBox "Case 2.3"
             'Анализ - сколько строк вставилось 
             tblArea = UserArea.findByName("SAPMV45ATCTRL_U_ERF_KONTRAKT", "GuiTableControl").Id
             Set grid = session.findById(tblArea)
-            newsaprow = grid.currentRow - 1
-            diff = newsaprow - sapRow + 1
+            newsaprow = grid.currentRow
+            diff = newsaprow - sapRow
 MsgBox "Positions inserted: " & diff & ": " & sapRow & ", " & newsaprow
 
             WScript.Sleep 300
             
             ' Находим номера - вставленные позиции
             lines = ""
+            newsaprow = newsaprow + 1
             For i = newsaprow To saprow Step - 1
                 If lines <> "" Then
                     lines = lines & ", "
